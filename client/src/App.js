@@ -47,14 +47,17 @@ class App extends React.Component{
             this.state.heartArr.push(<FaHeart key={i}></FaHeart>);
         }
         const rhymes = (string.match(/\w{11}/gi) || []);
+        let key = 0;
         if (rhymes.length > 0){
                 rhymes.forEach(async word => {
                     let res = await fetch(`http://localhost:9000/rhyme/${word}`);
                     let resjson = await res.json();
+                    this.setState({rhymeSearch: this.state.rhymeSearch});
                     if (resjson.length > 0){
                         resjson.forEach(o => {
                             console.log(o.word);
-                            this.state.rhymeSearch.push(<text>{o.word}</text>);
+                            this.state.rhymeSearch.push(<div key={key}>{o.word}</div>);
+                            key++;
                         })
                     }
                      
@@ -162,6 +165,9 @@ class App extends React.Component{
             <div id="star">
                 {this.state.starArry}
             </div>
+           
+            </Row>
+            <Row>
             <div>
                 {this.state.rhymeSearch}
             </div>
